@@ -17,12 +17,20 @@ def bookdetail(request, book_id):
     book_obj = Book.objects.get(id=book_id)
     likes = Like.objects.filter(book_id=book_id, vote=True).count()
     try:       
-        val_comment = Comment.objects.get(user=request.user.id, book=book_obj)
-        can_comment = False
+        customuser = CustomUser.objects.get(user=request.user)  
+        val_comment = Comment.objects.get(user=customuser, book=book_obj)
+        if val_comment:
+            can_comment = False
+        else:
+            can_comment = True
 
-    except:
+    except Exception as e:
+        print('=============')
+        print(e)
         val_comment = None
         can_comment = True
+
+    print(can_comment)
     comments = Comment.objects.filter(book=book_obj)
     dislikes = Like.objects.filter(book_id=book_id, vote=False).count()
     return render(request, 'bookdetail.html', {'book_obj': book_obj,
@@ -135,9 +143,30 @@ def add_comment(request, book_id):
         add_title = request.POST['add_title']
         print(request.POST)
         book = Book.objects.get(id=book_id)
+        print(request.user)
         customuser = CustomUser.objects.get(user=request.user)  
         print("user = ",customuser, "book = ",book)
         Comment.objects.create(user=customuser , book=book , title=add_title , content=add_commit)    
+    return redirect("bookdetail_page", book_id=book_id)
+
+def edit_comment(request, book_id):
+    if request.method=="POST":
+        print('HEREEE')
+        add_commit = request.POST['add_commit']
+        add_title = request.POST['add_title']
+        book = Book.objects.get(id=book_id)
+        customuser = CustomUser.objects.get(user=request.user) 
+        my_Comment=Comment.objects.filter(user_id=customuser , book_id=book).update(title=add_commit, content=add_title)
+        # print(my_Comment[0])
+        # print('======+++++++')
+        # print(add_title)
+        # my_Comment[0].content = 'NEW'
+        # print('+_+_+_++_+_++')
+        # print(my_Comment[0].content)
+        # my_Comment[0].save()
+        # print(" im saved")
+        # Comment.objects.update(my_Comment[0])
+        # Comment.objects.update(my_Comment[0])   
     return redirect("bookdetail_page", book_id=book_id)
 
 def new_register(request):
@@ -176,3 +205,4 @@ def profile(request):
 
 def addbook(request, ):
     return render(request, 'addbook.html',)
+   

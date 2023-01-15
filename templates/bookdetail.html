@@ -119,20 +119,21 @@
 					</div>
 				{% endif %}
 				{% if not can_comment %}
-				<form method="post" action="{%url "add_comment" book_obj.id %}">
-					{% csrf_token %}
-					<h5 style="margin-bottom: 2px;">ویرایش نظر</h5>
-					<small>عنوان :</small>
-					<input type="text" maxlength="20" name="add_title" value={{val_comment.title}}><br>
-					<small>شرح‌نظر :</small>
-					<input type="text" maxlength="50" size="50px" name="add_commit" value={{val_comment.content}}>
-					<button style="background-color: aliceblue ; color: black;">تصحیح</button>
-				</form>
+					<form method="post" action="{%url "edit_comment" book_obj.id %}">
+						{% csrf_token %}
+						<h5 style="margin-bottom: 2px;">ویرایش نظر</h5>
+						<small>عنوان :</small>
+						<input type="text" maxlength="20" name="add_title" value={{val_comment.title}}><br>
+						<small>شرح‌نظر :</small>
+						<input type="text" maxlength="50" size="50px" name="add_commit" value={{val_comment.content}}>
+						<button style="background-color: aliceblue ; color: black;">تصحیح</button>
+					</form>
 				{%endif%}
 			{% endif %}
 			<div class="grid related-products">
 				<div class="column-xs-12">
 					<h3>این محصولات نیز پیشنهاد می شوند</h3>
+					
 				</div>
 				<div class="column-xs-12 column-md-4">
 					<img src={% static "pics/pic4.jfif" %}>

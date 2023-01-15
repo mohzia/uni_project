@@ -18,6 +18,7 @@ urlpatterns = [
     path('login/',views.login_user , name="login_page"),
     path('new_register/',views.new_register , name="new_register"),
     path('add_comment/<int:book_id>/', views.add_comment , name="add_comment"),
+    path('edit_comment/<int:book_id>/', views.edit_comment , name="edit_comment"),
     path('logout/',views.logout_user , name="logout"),
     path('profile/', views.profile , name="profile_page"),
     path('addbook/', views.addbook , name="addbook_page")
