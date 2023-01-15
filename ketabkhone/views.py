@@ -31,7 +31,7 @@ def bookdetail(request, book_id):
                                                 "comments":comments,
                                                 'can_comment': can_comment,
                                                 "val_comment":val_comment
-                                                })
+                                                 })
 
 
 def bookliste(request):
