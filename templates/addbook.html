@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>کتاب {{ book_obj.name }}</title>
+	<link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body >
+	
+	<nav class="flex-nav">
+		<div class="container">
+			<div class="grid menu">
+				<div class="column-xs-8 column-md-6">
+					<p id="highlight">MOHZIA</p>
+					{% if request.user.is_authenticated %}
+						<small>{{user.username}}</small>
+						<small><a href="{%url "logout"%}">(خروچ)</a></small>
+					{% endif %}
+				</div>
+				<div class="column-xs-4 column-md-6">
+					<ul>
+						<li class="nav-item"><a href="{%url 'booklist page' %}">صفحه اصلی و خروج</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<div class="container">
+			<div class="grid product">
+				<div class="content">
+                <form enctype="multipart/form-data" method="post" id="book_form" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="N9lf4trgSQVbYrVBNmapI6QndZzSxVGO0l9e0HIWzJpQwqIWVEsEs01M2F6Z5BzG">
+                <div id="content" class="colM">
+                <fieldset class="module aligned ">
+                    <h1>افزودن کتاب</h1>
+                    <div class="form-row field-name">
+                        <div>        
+                            <label class="required" for="id_name">نام:</label>
+                            <input type="text" name="name" class="vTextField" maxlength="30" required="" id="id_name">        
+                        </div>
+                    </div>
+                    <div class="form-row field-cover">
+                        <div>
+                            <label class="required" for="id_cover">جلد:</label>    
+                            <input type="file" name="cover" accept="image/*" id="id_cover" >
+                        </div>                        
+                    </div>
+                    <div class="form-row field-desk">
+                        <div>
+                            <textarea name="desk" cols="40" rows="10" class="vLargeTextField" maxlength="250" required="" id="id_desk"></textarea>
+                            <label class="required" for="id_desk">توضیحات:</label>            
+                        </div>
+                    </div>
+                    <div class="form-row field-translator">
+                        <div>
+                            <label class="required" for="id_translator">مترجم:</label>    
+                            <input type="text" name="translator" class="vTextField" maxlength="30" required="" id="id_translator">    
+                        </div> 
+                    </div>
+                    <div class="form-row field-poblisher">
+                        <div>   
+                            <div class="related-widget-wrapper">
+                                
+                            <label class="required" for="id_poblisher">نشریه:</label>
+                                <select name="poblisher" required="" id="id_poblisher">
+                                    <option value="" selected="">---------</option>
+                                    <option value="27">نشر ثالث</option>
+                                    <option value="43">نشر چشمه</option>
+                                    <option value="47">نشر ققنوس</option>
+                                </select>
+                                <a class="related-widget-wrapper-link change-related" id="change_id_poblisher" data-href-template="/admin/extra/publisher/__fk__/change/?_to_field=id&amp;_popup=1" title="Change selected publisher"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_poblisher" href="/admin/extra/publisher/add/?_to_field=id&amp;_popup=1" title="Add another publisher"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_poblisher" data-href-template="/admin/extra/publisher/__fk__/delete/?_to_field=id&amp;_popup=1" title="Delete selected publisher"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-category">
+                        <div>
+                            <label class="required" for="id_category">موضوع:</label>                    
+                            <div class="related-widget-wrapper">
+                                <select name="category" required="" id="id_category" multiple="">
+                                    <option value="52">تاریخی</option>
+                                    <option value="53">کودکان</option>
+                                    <option value="54">سیاسی</option>
+                                    <option value="55">روان شناسی</option>
+                                </select>                
+                                <a class="related-widget-wrapper-link add-related" id="add_id_category" href="/admin/extra/category/add/?_to_field=id&amp;_popup=1" title="Add another category"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+                            </div>                                
+                            <div class="help"><small>برای انتخاب چند مورد از کلید(ctrl)استفاده کنید.</small>
+                            </div>       
+                        </div>
+                    </div>
+                    <div class="form-row field-author">        
+                        <div>
+                            <label class="required" for="id_author">نویسنده:</label>            
+                            <div class="related-widget-wrapper">
+                                <select name="author" required="" id="id_author" multiple="">
+                                    <option value="1">جلال آل احمد</option>
+                                    <option value="48">عباس معروفی</option>
+                                </select>
+                                <a class="related-widget-wrapper-link add-related" id="add_id_author" href="/admin/author/author/add/?_to_field=id&amp;_popup=1" title="Add another author"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+                            </div>                                
+                            <div class="help"><small>برای انتخاب چند مورد از کلید(ctrl)استفاده کنید.</small>
+                            </div>
+                        </div>             
+                    </div>
+                    <div class="form-row field-user">
+                        <div>
+                            <label class="required" for="id_user">User:</label>
+                            <div class="related-widget-wrapper">
+                                <select name="user" required="" id="id_user">
+                                    <option value="" selected="">---------</option>
+                                    <option value="1">admin</option>
+                                    <option value="2">hamid</option>
+                                    <option value="3">test_username</option>
+                                    <option value="4">hassan</option>
+                                    <option value="6">mohammad110</option>
+                                </select>
+                                <a class="related-widget-wrapper-link change-related" id="change_id_user" data-href-template="/admin/accounting/customuser/__fk__/change/?_to_field=id&amp;_popup=1" title="Change selected custom user"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_user" href="/admin/accounting/customuser/add/?_to_field=id&amp;_popup=1" title="Add another custom user"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-active">
+                        <div class="checkbox-row">                                
+                            <input type="checkbox" name="active" id="id_active"><label class="vCheckboxLabel" for="id_active">فعالیت :</label>
+                        </div>
+                    </div>
+                    <div class="form-row field-loan">                        
+                        <div>                
+                           <label class="required" for="id_loan">Loan:</label>                                
+                            <div class="related-widget-wrapper">
+                                <select name="loan" required="" id="id_loan">
+                                    <option value="" selected="">---------</option>
+                                    <option value="1">C</option>
+                                </select>
+                                <a class="related-widget-wrapper-link change-related" id="change_id_loan" data-href-template="/admin/loan/loan/__fk__/change/?_to_field=id&amp;_popup=1" title="Change selected loan"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_loan" href="/admin/loan/loan/add/?_to_field=id&amp;_popup=1" title="Add another loan"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart">ثبت</button>
+                </form>
+            </div>
+                        
+                            
+                            <br class="clear">
+                            </div>
+                            <!-- END Content -->
+                            <div id="footer"></div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="related-widget-wrapper-link add-related" id="add_id_author" href="/admin/book/book/add/?_to_field=id&amp;_popup=1" title="Add another author"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+                    
+                    

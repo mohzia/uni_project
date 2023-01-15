@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>کتاب {{ book_obj.name }}</title>
+	<link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body >
+	
+	<nav class="flex-nav">
+		<div class="container">
+			<div class="grid menu">
+				<div class="column-xs-8 column-md-6">
+					<p id="highlight">MOHZIA</p>
+					{% if request.user.is_authenticated %}
+						<small>خوش آمدی {{user.username}}</small>
+						<small><a href="{%url "logout"%}">(خروچ)</a></small>
+					{% else %}
+					<small><a href="{%url "logout"%}">(ورود به حساب کاربری)</a></small>
+					{% endif %}
+				</div>
+				<div class="column-xs-4 column-md-6">
+					<a href="#" class="toggle-nav">منوی سایت <i class="ion-navicon-round"></i></a>
+					<ul>
+						<li class="nav-item"><a href="#">محصولات</a></li>
+						<li class="nav-item"><a href="#">درباره ما</a></li>
+						{% if request.user.is_authenticated %}
+						<li class="nav-item"><a href="{%url "profile_page" %}">پروفایل من</a></li>
+						<li class="nav-item"><a href="#">سبد خرید (0)</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<div class="container">
+			<div class="grid second-nav">
+				<div class="column-xs-12">
+					<nav>
+						<ol class="breadcrumb-list">
+							{%for category in book_obj.category.all%}
+							<li class="breadcrumb-item"><a href="{%url 'booklist page' %}">صفحه نخست</a></li>
+							<li class="breadcrumb-item"><a href="{%url 'category_bookliste' category.id %}">{{category.name}}</a></li>
+							<li class="breadcrumb-item active">{{ book_obj.name }}</li>
+							{%endfor%}
+						</ol>
+					</nav>
+				</div>
+			</div>
+			<img src="" alt="">
+			<div class="grid product">
+				<div class="column-xs-12 column-md-7">
+					<div class="product-gallery">
+						<div style="text-align: center;">
+							<img style="width: 25vw " src="{{ book_obj.cover.url }}">
+						</div>
+					</div>
+				</div>
+				<div class="column-xs-12 column-md-5">
+					<h1>{{ book_obj.name }}</h1>
+					<div class="description"  style="margin: 0px">
+						<p>
+							{{ book_obj.desk }}
+						</p>
+						<p>
+							<font size="-4">منتشر شده توسط: {{ book_obj.poblisher }}</font>
+							{% for authors in book_obj.author.all%}
+							<br><font size="-4">نویسنده : {{ authors.name }}</font>
+							{%endfor%}
+							<br><font size="-4">موضوع : 
+								{% for category in book_obj.category.all%}
+								<a href="{%url 'category_bookliste' category.id %}">
+								{{category.name}}
+							</a>
+							{%endfor%}
+						</font>
+							
+						</p>
+						<div>
+							<small style="margin-right: 35px;">{{likes}}</small>
+							<a href="{%url 'book_like' book_obj.id %}"><i class="fa fa-thumbs-up" style="font-size: 2vw;"></i></a>
+							<small style="margin-right: 6px;">{{dislike}}</small>
+							<a href="{%url 'book_dislike' book_obj.id%}"><i class="fa fa-thumbs-down" style="font-size: 2vw;"></i></a>
+							<a href="{%url 'book-bookmark' book_obj.id%}" style="margin-right: 50px;"><i class="fa fa-bookmark-o" style="font-size:30px"></i></a>
+						</div>
+					</div>
+					<button class="add-to-cart">افزودن به سبد خرید</button>
+				</div>
+			</div>
+			<div>
+				<h4>نظرات</h4>
+					<hr />
+				{% for comment in comments%}
+					<h4>{{comment.title}}</h4>
+					<p>{{comment.content}}</p>
+					<small>نوشته شده توسط :</small>
+						<small>{{ comment.user.user.username }}</small><br>
+						<font size="-3">نوشته شده در {{comment.create}}</font>
+						<hr/>		
+				{%endfor%}
+			</div>
+			{% if request.user.is_authenticated %}
+				{% if can_comment %}
+					<div>
+						<form method="post" action="{%url "add_comment" book_obj.id %}">
+							{% csrf_token %}
+							<h5 style="margin-bottom: 2px;">افزودن نظر</h5>
+							<small>عنوان :</small>
+							<input type="text" maxlength="20" name="add_title"><br>
+							<small>شرح‌نظر :</small>
+							<input type="text" maxlength="50" size="50px" name="add_commit">
+							<button style="background-color: aliceblue ; color: black;">افزودن</button>
+						</form>
+					</div>
+				{% endif %}
+				{% if not can_comment %}
+				<form method="post" action="{%url "add_comment" book_obj.id %}">
+					{% csrf_token %}
+					<h5 style="margin-bottom: 2px;">ویرایش نظر</h5>
+					<small>عنوان :</small>
+					<input type="text" maxlength="20" name="add_title" value={{val_comment.title}}><br>
+					<small>شرح‌نظر :</small>
+					<input type="text" maxlength="50" size="50px" name="add_commit" value={{val_comment.content}}>
+					<button style="background-color: aliceblue ; color: black;">تصحیح</button>
+				</form>
+				{%endif%}
+			{% endif %}
+			<div class="grid related-products">
+				<div class="column-xs-12">
+					<h3>این محصولات نیز پیشنهاد می شوند</h3>
+				</div>
+				<div class="column-xs-12 column-md-4">
+					<img src={% static "pics/pic4.jfif" %}>
+					<h4>ساکلنت</h4>
+					<p class="price">190 هزار تومان</p>
+				</div>
+				<div class="column-xs-12 column-md-4">
+					<img src={% static "pics/pic5.jfif" %}>
+					<h4>تراریوم</h4>
+					<p class="price">190 هزار تومان</p>
+				</div>
+				<div class="column-xs-12 column-md-4">
+					<img src={% static "pics/pic6.jfif" %}>
+					<h4>کاکتوس</h4>
+					<p class="price">190 هزار تومان</p>
+				</div>
+			</div>
+		</div>
+	</main>
+	<footer>
+		<div class="grid">
+			<div class="column-xs-12">
+				<h5 target="_blank"> درصورت بروز هرگونه مشکل ، از <a href="">تیکت ها</a> استفاده کنید .</h5><br>
+			</div>
+		</div>
+	</footer>
+	<script  src={% static "js/scripts.js" %}></script>
+</body>
+</html>

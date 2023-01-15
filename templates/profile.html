@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% load static %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> پروفایل کاربری</title>
+	<link rel="stylesheet" href="{% static 'profilecss/bootstrap-rtl.css' %}">
+	<link rel="stylesheet" href="{% static 'profilecss/font-awesome.min.css' %}">
+	<link type="text/css" href="{% static 'profilecss/style.css' %}" rel="stylesheet" />
+</head>
+<body class="profile-page" data-spy="scroll" data-target=".navbar" data-offset="50">
+<!-- The HEADER -->
+	<header id="header">
+		<nav class="navbar navbar-transparent navbar-fixed-top navbar-color-on-scroll">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="navigation-example">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="{%url 'booklist page' %}">صفحه نخست</a></li>
+						<li class="active"><a href="#">درباره ما</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- Profile Picture -->
+		<img id="profilePic" src="{% static 'pics/avatar.jpg' %}">
+		<div class="container-fluid" id="subheader">
+			<div class="row" id="row">
+				<div class="col-md-12">
+					<h1 id="name">نام و نام خانوادگی</h1>
+				</div>
+			</div>
+		</div>
+	</header>
+<!-- sidebar -->
+	<main>
+		<div class="container-fluid" style="height: 80%;">
+			<div class="row">
+				<div class="col-md-3 col-sm-4 col-xs-12">
+				</div>
+				<!-- start tab content -->
+				<div class="col-md-6 col-sm-8 col-xs-12" style="margin: ;center ,margin-bottom: 100px;">
+					<div class="tab-content">
+						<!-- about -->
+						<div id="about" class="tab-pane fade in active" >
+							<h3>بیوگرافی</h3>
+							<p><span><i class="fa fa-user-circle"></i><strong>نام:</strong></span> {{user_detail.username}} </p>
+							<p><span><i class="fa fa-user-circle-o"></i><strong>نام کاربری :</strong></span> نام کاربری </p>
+							<p><span><i class="fa fa-envelope"></i><strong>پست الکترونیک :</strong></span> mohzia@git </p>
+						</div>
+					</div>
+				</div>
+				
+				<!-- left sidebar friends status -->
+				<div class="col-md-3 col-sm-12 col-xs-12">
+					<div id="onlineFriends">
+						<h3 class="about">وضعیت دوستان</h3>
+						<ul>
+							<li><button class="btn btn-success btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">صفا</span></button><span class="text-success status"> آنلاین</span></li>
+							<li><button class="btn btn-danger btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">مریم</span></button><span class="text-danger status"> آفلاین</span></li>
+							<li><button class="btn btn-success btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">محسن</span></button><span class="text-success status"> آنلاین</span></li>
+							<li><button class="btn btn-primary btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">احمد</span></button><span class="text-primary status"> در حال مکالمه</span></li>
+							<li><button class="btn btn-warning btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">علی</span></button><span class="text-warning status"> معلق</span></li>
+							<li><button class="btn btn-primary btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">سینا</span></button><span class="text-primary status"> در حال مکالمه</span></li>
+							<li><button class="btn btn-info btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">مبینا</span></button><span class="text-info status"> مشغول</span></li>
+							<li><button class="btn btn-success btn-xs"><img class="onlineFriendsPics" src="{% static 'pics/f-avatar.jpg' %}" width="35px"><span class="onlineFriendsNames">میثم</span></button><span class="text-success status"> آنلاین</span></li>
+						</ul>
+						<a class="text-success more" href="#">بیشتر</a>
+					</div>
+				</div> 
+			</div>
+		</div>
+	</main>
+
+<!-- page footer -->
+	<footer class="footer">
+		<div class="container">
+			<nav class="pull-left">
+				<div id="share-buttons">
+					<a href="#" target="_blank">
+						<i class="fa fa-facebook-square"></i>
+					</a>
+					<a href="#" target="_blank">
+						<i class="fa fa-twitter-square"></i>
+					</a>
+					<a href="#" target="_blank">
+						<i class="fa fa-instagram"></i>
+					</a>
+					<a href="#" target="_blank">
+						<i class="fa fa-telegram"></i>
+					</a>
+				</div>
+			</nav>
+		</div>
+	</footer>
+
+	<script src="{% static 'profilejs/jquery-3.1.1.min.js' %}"></script>
+	<script src="{% static 'profilejs/bootstrap.min.js' %}"></script>
+</body>
+</html>
